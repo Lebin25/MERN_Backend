@@ -1,6 +1,7 @@
 const { generateToken } = require('../config/jwtToken');
 const User = require('../models/userModels');
-const asyncHandler = require("express-async-handler")
+const asyncHandler = require("express-async-handler");
+const validateMongoDbId = require('../utils/validateMongodbId');
 
 //Create a User
 const createUser = asyncHandler(async (req, res) => {
@@ -38,6 +39,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
 // Update a user
 const updateUserById = asyncHandler(async (req, res) => {
     const { _id } = req.user;
+    validateMongoDbId(_id);
     try {
         const updateUser = await User.findByIdAndUpdate(
             _id,
@@ -68,6 +70,7 @@ const getAllUser = asyncHandler(async (req, res) => {
 // Get a single user
 const getUserById = asyncHandler(async (req, res) => {
     const { id } = req.params
+    validateMongoDbId(id);
     try {
         const getUserById = await User.findById(id);
         res.json({
@@ -81,6 +84,7 @@ const getUserById = asyncHandler(async (req, res) => {
 // Delete a single user
 const deleteUserById = asyncHandler(async (req, res) => {
     const { id } = req.params
+    validateMongoDbId(id);
     try {
         const deleteUserById = await User.findByIdAndDelete(id);
         res.json({
@@ -93,6 +97,7 @@ const deleteUserById = asyncHandler(async (req, res) => {
 
 const blockUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongoDbId(id);
     try {
         const block = await User.findByIdAndUpdate(
             id,
@@ -103,15 +108,14 @@ const blockUser = asyncHandler(async (req, res) => {
                 new: true,
             }
         );
-        res.json({
-            message: "User Blocked",
-        });
+        res.json(block);
     } catch (error) {
         throw new Error(error)
     }
 })
 const unblockUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongoDbId(id);
     try {
         const unblock = await User.findByIdAndUpdate(
             id,
