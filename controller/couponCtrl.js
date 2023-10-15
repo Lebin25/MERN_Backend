@@ -10,7 +10,6 @@ const createCoupon = asynHandler(async (req, res) => {
       throw new Error(error);
    }
 });
-
 const getAllCoupons = asynHandler(async (req, res) => {
    try {
       const coupons = await Coupon.find();
@@ -19,7 +18,6 @@ const getAllCoupons = asynHandler(async (req, res) => {
       throw new Error(error);
    }
 });
-
 const updateCoupon = asynHandler(async (req, res) => {
    const { id } = req.params;
    validateMongoDbId(id);
@@ -32,7 +30,6 @@ const updateCoupon = asynHandler(async (req, res) => {
       throw new Error(error);
    }
 });
-
 const deleteCoupon = asynHandler(async (req, res) => {
    const { id } = req.params;
    validateMongoDbId(id);
@@ -43,7 +40,6 @@ const deleteCoupon = asynHandler(async (req, res) => {
       throw new Error(error);
    }
 });
-
 const getCoupon = asynHandler(async (req, res) => {
    const { id } = req.params;
    validateMongoDbId(id);
@@ -54,11 +50,10 @@ const getCoupon = asynHandler(async (req, res) => {
       throw new Error(error);
    }
 });
-
 module.exports = {
    createCoupon,
    getAllCoupons,
    updateCoupon,
    deleteCoupon,
    getCoupon,
-}
+};
