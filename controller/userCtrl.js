@@ -490,6 +490,20 @@ const getAllOrders = asyncHandler(async (req, res) => {
       throw new Error(error);
    }
 });
+
+const getOrderById = asyncHandler(async (req, res) => {
+   const { id } = req.params;
+   try {
+      const order = await Order.findOne({ _id: id })
+         .populate("products.product")
+         .populate("orderby")
+         .exec();
+      res.json(order);
+   } catch (error) {
+      throw new Error(error);
+   }
+});
+
 const getOrderByUserId = asyncHandler(async (req, res) => {
    const { id } = req.params;
    validateMongoDbId(id);
@@ -503,6 +517,7 @@ const getOrderByUserId = asyncHandler(async (req, res) => {
       throw new Error(error);
    }
 });
+
 const updateOrderStatus = asyncHandler(async (req, res) => {
    const { status } = req.body;
    const { id } = req.params;
@@ -550,4 +565,5 @@ module.exports = {
    updateOrderStatus,
    getAllOrders,
    getOrderByUserId,
+   getOrderById,
 };
