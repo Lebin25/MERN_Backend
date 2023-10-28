@@ -493,6 +493,7 @@ const getAllOrders = asyncHandler(async (req, res) => {
 
 const getOrderById = asyncHandler(async (req, res) => {
    const { id } = req.params;
+   validateMongoDbId(id);
    try {
       const order = await Order.findOne({ _id: id })
          .populate("products.product")
