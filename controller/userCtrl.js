@@ -374,10 +374,21 @@ const removeProductFromCart = asyncHandler(async (req, res) => {
    const { cartItemId } = req.params;
    validateMongoDbId(_id);
    try {
-      const deleteProductFromCart = await Cart.deleteOne({ userId: _id, _id: cartItemId })
-      res.json(deleteProductFromCart);
+      const deleteCart = await Cart.deleteOne({ userId: _id, _id: cartItemId })
+      res.json(deleteCart);
    } catch (error) {
       throw new Error(error);
+   }
+})
+
+const emptyCart = asyncHandler(async (req, res) => {
+   const { _id } = req.user;
+   validateMongoDbId(_id)
+   try {
+      const deleteCart = await Cart.deleteMany({ userId: _id })
+      res.json(deleteCart);
+   } catch (error) {
+      throw new Error(error)
    }
 })
 
@@ -554,4 +565,5 @@ module.exports = {
    updateOrder,
    getMonthWiseOrderIncome,
    getYearlyTotalOrders,
+   emptyCart,
 };
